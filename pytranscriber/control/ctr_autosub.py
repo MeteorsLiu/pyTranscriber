@@ -13,7 +13,7 @@ import os
 
 from pytranscriber.util.util import MyUtil
 
-
+import gc
 class Ctr_Autosub():
 
     cancel = False
@@ -76,7 +76,7 @@ class Ctr_Autosub():
         audio_filename, audio_rate = extract_audio(source_path)
 
         regions = find_speech_regions(audio_filename)
-
+        gc.collect()
         converter = FLACConverter(source_path=audio_filename)
         recognizer = SpeechRecognizer(language=src_language, rate=audio_rate,
                                       api_key=GOOGLE_SPEECH_API_KEY)
@@ -89,7 +89,7 @@ class Ctr_Autosub():
                 str_task_1 = "Step 1 of 2: Converting speech regions to FLAC files "
                 len_regions = len(regions)
                 extracted_regions = []
-                Ctr_Autosub.pool = multiprocessing.Pool(concurrency)
+                Ctr_Autosub.pool = multiprocessing.Pool()
                 for i, extracted_region in enumerate(Ctr_Autosub.pool.imap(converter, regions)):
                     Ctr_Autosub.step = 1
                     extracted_regions.append(extracted_region)
@@ -102,7 +102,7 @@ class Ctr_Autosub():
                     Ctr_Autosub.pool.join()
 
                 str_task_2 = "Step 2 of 2: Performing speech recognition "
-                Ctr_Autosub.pool = multiprocessing.Pool(concurrency)
+                Ctr_Autosub.pool = multiprocessing.Pool()
                 for i, transcript in enumerate(Ctr_Autosub.pool.imap(recognizer, extracted_regions)):
                     Ctr_Autosub.step = 2
                     transcripts.append(transcript)

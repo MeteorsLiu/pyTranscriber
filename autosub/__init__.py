@@ -16,7 +16,8 @@ import subprocess
 import sys
 import tempfile
 import wave
-
+from scipy.io import wavfile
+import noisereduce as nr
 import json
 import requests
 try:
@@ -200,8 +201,17 @@ def extract_audio(filename, channels=1, rate=16000):
                "-ac", str(channels), "-ar", str(rate),
                "-loglevel", "error", temp.name]
     use_shell = True if os.name == "nt" else False
-    subprocess.check_output(command, stdin=open(os.devnull), shell=use_shell)
-    return temp.name, rate
+    #subprocess.check_output(command, stdin=open(os.devnull), shell=use_shell)
+    process = subprocess.Popen(command)
+    process.wait()
+    files = temp.name
+    rate, data = wavfile.read(temp.name)
+    #os.remove(temp.name)
+    reduced_noise = nr.reduce_noise(y=data, sr=rate, prop_decrease=0.9)
+    temp.close()
+    os.remove(files)
+    wavfile.write(files, rate, reduced_noise)
+    return files, rate
 
 
 def find_speech_regions(filename, frame_width=4096, min_region_size=0.5, max_region_size=6): # pylint: disable=too-many-locals
