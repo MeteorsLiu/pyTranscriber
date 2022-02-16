@@ -42,7 +42,9 @@ class Ctr_Main():
     def __initGUI(self):
 
         #language selection list
-        list_languages =  [ "en-US - English (United States)",
+        list_languages =  [ 
+                            "ja - Japanese",
+                            "en-US - English (United States)",
                             "en-AU - English (Australia)",
                             "en-CA - English (Canada)",
                             "en-GB - English (United Kingdom)",
@@ -129,7 +131,6 @@ class Ctr_Main():
                             "it - Italian",
                             'it-CH - Italian (Switzerland)',
                             "iw - Hebrew",
-                            "ja - Japanese",
                             "jw - Javanese",
                             "ka - Georgian",
                             "kk - Kazakh",
@@ -272,7 +273,7 @@ class Ctr_Main():
     def __listenerBSelectMedia(self):
         #options = QFileDialog.Options()
         options = QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self.objGUI.centralwidget, "Select media", "","All Media Files (*.mp3 *.mp4 *.wav *.m4a *.wma)")
+        files, _ = QFileDialog.getOpenFileNames(self.objGUI.centralwidget, "Select media", "","All Media Files (*.mp3 *.mp4 *.wav *.m4a *.wma *.wmv)")
 
         if files:
             self.objGUI.qlwListFilesSelected.addItems(files)

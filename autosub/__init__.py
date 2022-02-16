@@ -69,11 +69,11 @@ class FLACConverter(object): # pylint: disable=too-few-public-methods
             start = max(0, start - self.include_before)
             end += self.include_after
             #delete=False necessary for running on Windows
-            temp = tempfile.NamedTemporaryFile(suffix='.flac', delete=False)
+            temp = tempfile.NamedTemporaryFile(suffix='.raw', delete=False)
             program_ffmpeg = which("ffmpeg")
             command = [str(program_ffmpeg), "-ss", str(start), "-t", str(end - start),
-                       "-y", "-i", self.source_path,
-                       "-loglevel", "error", temp.name]
+                       "-y",  "-i", self.source_path,
+                       "-loglevel", "error", "-ac", "1", "-ar", "16000", "-f", "s16le", "-c:a", "pcm_s16le",  temp.name]
             use_shell = True if os.name == "nt" else False
             subprocess.check_output(command, stdin=open(os.devnull), shell=use_shell)
             read_data = temp.read()
@@ -89,7 +89,7 @@ class SpeechRecognizer(object): # pylint: disable=too-few-public-methods
     """
     Class for performing speech-to-text for an input FLAC file.
     """
-    def __init__(self, language="en", rate=44100, retries=3, api_key=GOOGLE_SPEECH_API_KEY):
+    def __init__(self, language="en", rate=16000, retries=3, api_key=GOOGLE_SPEECH_API_KEY):
         self.language = language
         self.rate = rate
         self.api_key = api_key
@@ -99,7 +99,7 @@ class SpeechRecognizer(object): # pylint: disable=too-few-public-methods
         try:
             for _ in range(self.retries):
                 url = GOOGLE_SPEECH_API_URL.format(lang=self.language, key=self.api_key)
-                headers = {"Content-Type": "audio/x-flac; rate=%d" % self.rate}
+                headers = {"Content-Type": "audio/l16; rate=%d" % self.rate}
 
                 try:
                     resp = requests.post(url, data=data, headers=headers)
@@ -198,7 +198,7 @@ def extract_audio(filename, channels=1, rate=16000):
         print("ffmpeg: Executable not found on machine.")
         raise Exception("Dependency not found: ffmpeg")
     command = [str(program_ffmpeg), "-y", "-i", filename,
-               "-ac", str(channels), "-ar", str(rate),
+               "-ac", str(channels), "-ar", str(rate), 
                "-loglevel", "error", temp.name]
     use_shell = True if os.name == "nt" else False
     #subprocess.check_output(command, stdin=open(os.devnull), shell=use_shell)
@@ -207,7 +207,7 @@ def extract_audio(filename, channels=1, rate=16000):
     files = temp.name
     rate, data = wavfile.read(temp.name)
     #os.remove(temp.name)
-    reduced_noise = nr.reduce_noise(y=data, sr=rate, prop_decrease=0.9)
+    reduced_noise = nr.reduce_noise(y=data, sr=rate, prop_decrease=0.8)
     temp.close()
     os.remove(files)
     wavfile.write(files, rate, reduced_noise)
