@@ -120,6 +120,8 @@ class Ctr_Autosub():
                 Ctr_Autosub.pool.terminate()
                 Ctr_Autosub.pool.join()
                 raise
+            finally:
+                os.remove(audio_filename)
 
         timed_subtitles = [(r, t) for r, t in zip(regions, transcripts) if t]
         formatter = FORMATTERS.get(subtitle_file_format)
@@ -134,7 +136,7 @@ class Ctr_Autosub():
         with open(dest, 'wb') as output_file:
             output_file.write(formatted_subtitles.encode("utf-8"))
 
-        os.remove(audio_filename)
+        
 
         if Ctr_Autosub.cancel:
             return -1

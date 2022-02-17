@@ -32,7 +32,7 @@ class MyUtil(object):
         try:
             # connect to the host -- tells us if the host is actually
             # reachable
-            s = socket.create_connection(("www.google.com", 80), 2)
+            s = socket.create_connection(("www.google.cn", 80), 2)
             s.close()
             return True
         except OSError:

@@ -97,12 +97,15 @@ class SpeechRecognizer(object): # pylint: disable=too-few-public-methods
 
     def __call__(self, data):
         try:
+            proxies = {
+                "http": None,
+                "https": None
+            }
             for _ in range(self.retries):
                 url = GOOGLE_SPEECH_API_URL.format(lang=self.language, key=self.api_key)
                 headers = {"Content-Type": "audio/l16; rate=%d" % self.rate}
-
                 try:
-                    resp = requests.post(url, data=data, headers=headers)
+                    resp = requests.post(url, data=data, headers=headers, proxies=proxies)
                 except requests.exceptions.ConnectionError:
                     continue
 
