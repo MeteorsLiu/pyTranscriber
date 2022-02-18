@@ -86,7 +86,7 @@ class Ctr_Autosub():
                 if Ctr_Autosub.cancel:
                     return -1
 
-                str_task_1 = "Step 1 of 2: Converting speech regions to FLAC files "
+                str_task_1 = "正在处理音频文件......"
                 len_regions = len(regions)
                 extracted_regions = []
                 Ctr_Autosub.pool = multiprocessing.Pool()
@@ -101,7 +101,7 @@ class Ctr_Autosub():
                     Ctr_Autosub.pool.close()
                     Ctr_Autosub.pool.join()
 
-                str_task_2 = "Step 2 of 2: Performing speech recognition "
+                str_task_2 = "正在听识字幕......"
                 Ctr_Autosub.pool = multiprocessing.Pool()
                 for i, transcript in enumerate(Ctr_Autosub.pool.imap(recognizer, extracted_regions)):
                     Ctr_Autosub.step = 2

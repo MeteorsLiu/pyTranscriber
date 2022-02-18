@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Select file(s)</string>
+     <string>选择文件</string>
     </property>
    </widget>
    <widget class="QPushButton" name="bConvert">
@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Transcribe Audio / Generate Subtitles</string>
+     <string>听识字幕</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
@@ -79,7 +79,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Open Output Folder</string>
+     <string>打开字幕输出目录</string>
     </property>
    </widget>
    <widget class="QPushButton" name="bSelectOutputFolder">
@@ -92,7 +92,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Output Location</string>
+     <string>输出目录</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="qleOutputFolder">
@@ -121,7 +121,7 @@
      </rect>
     </property>
     <property name="title">
-     <string>&amp;List of files to generate transcribe audio / generate subtitles</string>
+     <string>&amp;要听识字幕的文件</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -153,7 +153,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Remove file(s)</string>
+     <string>移除文件出听识名单</string>
     </property>
    </widget>
    <widget class="QLabel" name="labelProgressFileIndex">
@@ -179,7 +179,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Cancel</string>
+     <string>取消</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="chbxOpenOutputFilesAuto">
@@ -192,7 +192,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Open output files automatically</string>
+     <string>完成后自动打开字幕</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -211,7 +211,7 @@
      <item>
       <widget class="QLabel" name="labelSelectLang">
        <property name="text">
-        <string>Audio Language:</string>
+        <string>音频语言:</string>
        </property>
       </widget>
      </item>
@@ -236,7 +236,7 @@
    </property>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
-     <string>Abo&amp;ut</string>
+     <string>关于</string>
     </property>
     <addaction name="actionLicense"/>
     <addaction name="actionDonate"/>
@@ -252,12 +252,12 @@
   </action>
   <action name="actionDonate">
    <property name="text">
-    <string>&amp;DONATIONS</string>
+    <string>&amp;捐款</string>
    </property>
   </action>
   <action name="actionAbout_pyTranscriber">
    <property name="text">
-    <string>&amp;About pyTranscriber</string>
+    <string>&amp;关于 pyTranscriber</string>
    </property>
   </action>
  </widget>

@@ -273,7 +273,7 @@ class Ctr_Main():
     def __listenerBSelectMedia(self):
         #options = QFileDialog.Options()
         options = QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self.objGUI.centralwidget, "Select media", "","All Media Files (*.mp3 *.mp4 *.wav *.m4a *.wma *.wmv)")
+        files, _ = QFileDialog.getOpenFileNames(self.objGUI.centralwidget, "选择文件", "","所有媒体文件 (*.mp3 *.mp4 *.wav *.m4a *.wma *.wmv)")
 
         if files:
             self.objGUI.qlwListFilesSelected.addItems(files)
@@ -285,7 +285,7 @@ class Ctr_Main():
 
     def __listenerBExec(self):
         if not MyUtil.is_internet_connected():
-            self.__showErrorMessage("Error! Cannot reach Google Speech Servers. \n\n1) Please make sure you are connected to the internet. \n2) If you are in China or other place that blocks access to Google servers: please install and enable a desktop-wide VPN app like Windscribe before trying to use pyTranscriber!")
+            self.__showErrorMessage("无法连接Google Speech，请检查是否有互联网后再来使用")
         else:
             #extracts the two letter lang_code from the string on language selection
             selectedLanguage = self.objGUI.cbSelectLang.currentText()
@@ -329,7 +329,7 @@ class Ctr_Main():
         #Only if worker thread is running
         if self.thread_exec and self.thread_exec.isRunning():
             #reset progress indicator
-            self.__listenerProgress("Cancelling", 0)
+            self.__listenerProgress("正在取消......", 0)
             self.__setProgressBarIndefinite()
             self.__updateProgressFileYofN("")
 
@@ -357,7 +357,7 @@ class Ctr_Main():
         if os.path.exists(pathOutputFolder) and os.path.isdir(pathOutputFolder):
             MyUtil.open_file(pathOutputFolder)
         else:
-            self.__showErrorMessage("Error! Invalid output folder.")
+            self.__showErrorMessage("错误！不正确的字幕输出目录")
 
     def __listenerBLicense(self):
         self.__showInfoMessage("<html><body><a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">GPL License</a><br><br>"
@@ -378,23 +378,16 @@ class Ctr_Main():
 
     def __listenerBDonation(self):
         self.__showInfoMessage("<html><body>"
-                + "pyTranscriber is developed as a hobby, so donations of any value are welcomed and essential for further improvements and fixes."
-                + "<br><br>If you feel that this software has been useful and would like to contribute for it to continue improve and have more features and fixes you can <a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=YHB854YHPJCU8&item_name=Donation+pyTranscriber&currency_code=BRL\">DONATE VIA PAYPAL</a> or <a href=\"https://blockchain.com/btc/payment_request?address=153LcqV59paxEEJX7riLrEHQbE54vhcko9&amount=0.00026351&message=Donation to support pyTranscriber development\"> DONATE US$5 VIA BITCOIN</a>."
-                + "<br><br>Thanks in advance!"
-                + "</body></html>", "DONATIONS")
+                + "我在翻译时候仍然保留原作者的捐款渠道，如果你们想要资助下作者可以点以下链接捐赠五美元"
+                + "<br><br><a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=YHB854YHPJCU8&item_name=Donation+pyTranscriber&currency_code=BRL\">DONATE VIA PAYPAL</a> or <a href=\"https://blockchain.com/btc/payment_request?address=153LcqV59paxEEJX7riLrEHQbE54vhcko9&amount=0.00026351&message=Donation to support pyTranscriber development\"> DONATE US$5 VIA BITCOIN</a>."
+                + "<br/> <strong>翻译：MeteorLiu(Haolan Guo)</strong>"
+                + "</body></html>", "捐款")
 
     def __listenerBAboutpyTranscriber(self):
         self.__showInfoMessage("<html><body>"
-                + "<a href=\"https://github.com/raryelcostasouza/pyTranscriber\">pyTranscriber</a> is an application that can be used "
-                + "to generate <b>automatic transcription / automatic subtitles </b>"
-                + "for audio/video files through a friendly graphical user interface. "
-                + "<br><br>"
-                + "The hard work of speech recognition is made by the <a href=\"https://cloud.google.com/speech/\">Google Speech Recognition API</a> "
-                + "using <a href=\"https://github.com/agermanidis/autosub\">Autosub</a>"
-                + "<br><br>pyTranscriber is developed as a hobby, so donations of any value are welcomed and essential for further improvements and fixes."
-                + "<br><br>If you feel that this software has been useful and would like to contribute for it to continue improve and have more features and fixes you can <a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=YHB854YHPJCU8&item_name=Donation+pyTranscriber&currency_code=BRL\">DONATE VIA PAYPAL</a> or <a href=\"https://blockchain.com/btc/payment_request?address=153LcqV59paxEEJX7riLrEHQbE54vhcko9&amount=0.00026351&message=Donation to support pyTranscriber development\"> DONATE US$5 VIA BITCOIN</a>."
-                + "<br><br>Thanks in advance!"
-                + "</body></html>", "About pyTranscriber")
+                + "<a href=\"https://github.com/raryelcostasouza/pyTranscriber\">原作者raryelcostasouza</a> "
+                + "<br/> 修改人兼翻译：<a href=\"https://www.ghl.info\">MeteorLiu(Haolan Guo)</a>"
+                +"</body></html>", "关于 pyTranscriber")
 
 
     def __showInfoMessage(self, info_msg, title):
@@ -409,6 +402,6 @@ class Ctr_Main():
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
 
-        msg.setWindowTitle("Error!")
+        msg.setWindowTitle("错误!")
         msg.setText(errorMsg)
         msg.exec()

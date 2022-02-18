@@ -66,12 +66,12 @@ class Thread_Exec_Autosub(QThread):
                                     listener_progress = self.listenerProgress)
         #if nothing was returned
         if not fOutput:
-            self.signalErrorMsg.emit("Error! Unable to generate subtitles for file " + sourceFile + ".")
+            self.signalErrorMsg.emit("错误! 无法生成字幕文件 " + sourceFile + ".")
         elif fOutput != -1:
             #if the operation was not canceled
 
             #updated the progress message
-            self.listenerProgress("Finished", 100)
+            self.listenerProgress("已完成", 100)
 
             #parses the .srt subtitle file and export text to .txt file
             SRTParser.extractTextFromSRT(str(outputFileSRT))
@@ -94,7 +94,7 @@ class Thread_Exec_Autosub(QThread):
         #if there the output file is not a directory
         if not os.path.isdir(pathOutputFolder):
             #force the user to select a different output directory
-            self.signalErrorMsg.emit("Error! Invalid output folder. Please choose another one.")
+            self.signalErrorMsg.emit("错误! 字幕输出目录有误，请检查该目录是否存在")
         else:
             #go ahead with autosub process
             nFiles = len(self.objParamAutosub.listFiles)
