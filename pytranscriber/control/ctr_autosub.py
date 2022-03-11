@@ -73,12 +73,12 @@ class Ctr_Autosub():
         """
         Given an input audio/video file, generate subtitles in the specified language and format.
         """
-        audio_filename, audio_rate = extract_audio(source_path)
+        audio_filename = extract_audio(source_path)
 
         regions = find_speech_regions(audio_filename)
         gc.collect()
         converter = FLACConverter(source_path=audio_filename)
-        recognizer = SpeechRecognizer(language=src_language, rate=audio_rate,
+        recognizer = SpeechRecognizer(language=src_language, rate=16000,
                                       api_key=GOOGLE_SPEECH_API_KEY)
         transcripts = []
         if regions:

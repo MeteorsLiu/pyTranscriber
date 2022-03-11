@@ -273,7 +273,7 @@ class Ctr_Main():
     def __listenerBSelectMedia(self):
         #options = QFileDialog.Options()
         options = QFileDialog.DontUseNativeDialog
-        files, _ = QFileDialog.getOpenFileNames(self.objGUI.centralwidget, "选择文件", "","所有媒体文件 (*.mp3 *.mp4 *.wav *.m4a *.wma *.wmv)")
+        files, _ = QFileDialog.getOpenFileNames(self.objGUI.centralwidget, "选择文件", "","所有媒体文件 (*.mp3 *.mp4 *.wav *.m4a *.wma *.wmv *.mkv)")
 
         if files:
             self.objGUI.qlwListFilesSelected.addItems(files)

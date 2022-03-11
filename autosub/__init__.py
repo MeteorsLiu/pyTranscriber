@@ -25,7 +25,6 @@ try:
 except ImportError:
     JSONDecodeError = ValueError
 
-from googleapiclient.discovery import build
 from progressbar import ProgressBar, Percentage, Bar, ETA
 
 from autosub.constants import (
@@ -54,10 +53,8 @@ def percentile(arr, percent):
     return low_value + high_value
 
 
+
 class FLACConverter(object): # pylint: disable=too-few-public-methods
-    """
-    Class for converting a region of an input audio or video file into a FLAC audio file
-    """
     def __init__(self, source_path, include_before=0.25, include_after=0.25):
         self.source_path = source_path
         self.include_before = include_before
@@ -188,7 +185,7 @@ def which(program):
     return None
 
 
-def extract_audio(filename, channels=1, rate=16000):
+def extract_audio(filename):
     """
     Extract audio from an input file to a temporary WAV file.
     """
@@ -201,20 +198,19 @@ def extract_audio(filename, channels=1, rate=16000):
         print("ffmpeg: Executable not found on machine.")
         raise Exception("Dependency not found: ffmpeg")
     command = [str(program_ffmpeg), "-y", "-i", filename,
-               "-ac", str(channels), "-ar", str(rate), 
                "-loglevel", "error", temp.name]
     use_shell = True if os.name == "nt" else False
     #subprocess.check_output(command, stdin=open(os.devnull), shell=use_shell)
     process = subprocess.Popen(command)
     process.wait()
-    files = temp.name
-    rate, data = wavfile.read(temp.name)
+    #files = temp.name
+    #rate, data = wavfile.read(temp.name)
     #os.remove(temp.name)
-    reduced_noise = nr.reduce_noise(y=data, sr=rate, prop_decrease=0.8)
-    temp.close()
-    os.remove(files)
-    wavfile.write(files, rate, reduced_noise)
-    return files, rate
+    #reduced_noise = nr.reduce_noise(y=data, sr=rate, prop_decrease=0.8)
+    #temp.close()
+    #os.remove(files)
+    #wavfile.write(files, rate, reduced_noise)
+    return temp.name
 
 
 def find_speech_regions(filename, frame_width=4096, min_region_size=0.5, max_region_size=6): # pylint: disable=too-many-locals
